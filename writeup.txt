@@ -1,0 +1,7 @@
+Difference between three multiclass-to-binary reductions
+
+1. One against all 
+2. All versus All
+3. Tree based reductions
+
+Given the description of the wine, predict the type of wine. 
