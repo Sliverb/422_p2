@@ -1,6 +1,3 @@
-# This contains the multiclass reduction implementations
-import warnings
-warnings.filterwarnings("ignore")
 from binary import *
 from util import *
 from numpy import *
@@ -178,17 +175,47 @@ class MCTree:
             print 'training classifier for', leftLabels, 'versus', rightLabels
 
             # compute the training data, store in thisX, thisY
-            ### TODO: YOUR CODE HERE
-            util.raiseNotDefined()
+            thisX=list()
+            thisY=list()
+
+            found=False
+
+            """checks if classification falls in left label group branch, right label group branch, or neither and 
+            appropriately sets binary label (-1 for left, +1 for right). adds label and corresponding feature list. 
+            """
+            for i in range(len(Y)):
+                classification=Y[i]
+                
+                for l in leftLabels:
+                    if(classification==l):
+                        thisX.append(X[i])
+                        thisY.append(0)
+                        found=True
+                        break
+                
+                if not found:
+                    for r in rightLabels:
+                        if(classification==r):
+                            thisX.append(X[i])
+                            thisY.append(1)
+                            found=True
+                            break
+                found=False
 
             try:
                 n.getNodeInfo().fit(thisX, thisY) # For sklearn implementations
             except:
                 n.getNodeInfo().train(thisX, thisY) # For implementations of binary.py
 
-    def predict(self, X):
-        ### TODO: YOUR CODE HERE
-        util.raiseNotDefined()
+    def predict(self, X):  
+        curr=self.tree
+        while(not curr.isLeaf):
+            if curr.getNodeInfo().predict(X)<0.5:
+                curr=curr.left
+            else:
+                curr=curr.right
+
+        return curr.label
 
     def predictAll(self, X):
         N,D = X.shape
