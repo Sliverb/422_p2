@@ -184,6 +184,7 @@ class MCTree:
             appropriately sets binary label (-1 for left, +1 for right). adds label and corresponding feature list. 
             """
             for i in range(len(Y)):
+                
                 classification=Y[i]
                 
                 for l in leftLabels:
@@ -203,6 +204,7 @@ class MCTree:
 
             try:
                 n.getNodeInfo().fit(thisX, thisY) # For sklearn implementations
+            
             except:
                 n.getNodeInfo().train(thisX, thisY) # For implementations of binary.py
 
@@ -217,6 +219,7 @@ class MCTree:
         return curr.label
 
     def predictAll(self, X):
+        
         N,D = X.shape
         Y   = zeros((N,), dtype=int)
         for n in range(N):
