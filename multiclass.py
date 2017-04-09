@@ -198,7 +198,6 @@ class MCTree:
                         if(classification==r):
                             thisX.append(X[i])
                             thisY.append(1)
-                            found=True
                             break
                 found=False
 
