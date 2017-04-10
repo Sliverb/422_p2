@@ -65,7 +65,11 @@ class LogisticLoss(LossFunction):
         """
 
         ### TODO: YOUR CODE HERE
-        util.raiseNotDefined()
+        sum = 0
+        for i in xrange(len(Y)):
+            sum += (1/log(2)) * log(1 + exp(- Y[i] * Yhat[i]))
+
+        return sum
 
 
     def lossGradient(self, X, Y, Yhat):
@@ -76,7 +80,14 @@ class LogisticLoss(LossFunction):
         """
 
         ### TODO: YOUR CODE HERE
-        util.raiseNotDefined()
+        sum = zeros(len(X[0]))
+        for i in xrange(len(X)):
+            temp = Y[i] * (1/log(2)) * (exp(- Y[i] * Yhat[i])/(1 + exp(- Y[i] * Yhat[i])))
+            t = dot(temp, -X[i])
+
+            sum += t
+
+        return sum
 
 
 class HingeLoss(LossFunction):
@@ -91,7 +102,12 @@ class HingeLoss(LossFunction):
         """
 
         ### TODO: YOUR CODE HERE
-        util.raiseNotDefined()
+        sum = 0
+        for i in xrange(len(Y)):
+            diff = 1 - Y[i] * Yhat[i]
+            sum += max(0, diff)
+
+        return sum
 
     def lossGradient(self, X, Y, Yhat):
         """
@@ -101,7 +117,18 @@ class HingeLoss(LossFunction):
         """
 
         ### TODO: YOUR CODE HERE
-        util.raiseNotDefined()
+        sum = zeros(len(X[0]))
+        for i in xrange(len(X)):
+            marg = Y[i] * Yhat[i]
+            t = None
+            if marg > 1:
+                t = zeros(len(X[0]))
+            else:
+                t = dot(Y[i], X[i])
+
+            sum += t
+
+        return - sum
 
 
 class LinearClassifier(BinaryClassifier):
@@ -173,11 +200,12 @@ class LinearClassifier(BinaryClassifier):
         # define our objective function based on loss, lambd and (X,Y)
         def func(w):
             # should compute obj = loss(w) + (lambd/2) * norm(w)^2
-            Yhat = X.T*self.weights
+            Yhat = []
 
-            sqloss = SquaredLoss()
-
-            obj  = SquaredLoss.loss(sqloss, Y, Yhat[0]) + lambd/2 + norm(self.weights)**2
+            for i in xrange(len(X)):
+                Yhat.append(dot(w, X[i]))
+            
+            obj  = lossFn.loss(Y, Yhat) + (lambd/2) * norm(w)**2
 
             # return the objective
             return obj
@@ -185,16 +213,18 @@ class LinearClassifier(BinaryClassifier):
         # define our gradient function based on loss, lambd and (X,Y)
         def grad(w):
             # should compute gr = grad(w) + lambd * w
-            Yhat = X.T*self.weights
+            Yhat = []
 
-            sqloss = SquaredLoss()
+            for i in xrange(len(X)):
+                 Yhat.append(dot(w, X[i]))
 
-            gr = SquaredLoss.lossGradient(sqloss, X, Y, Yhat[0]) + lambd*(self.weights)
-            
+            gr   = lossFn.lossGradient(X, Y, Yhat) + lambd * w
+
             return gr
 
         # run gradient descent; our initial point will just be our
         # weight vector
+        self.weights = zeros(len(X[0]))
         w, trajectory = gd(func, grad, self.weights, numIter, stepSize)
 
         # store the weights and trajectory
