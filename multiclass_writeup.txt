@@ -1,0 +1,19 @@
+WU1 (10%): Answer questions A, B and C for both OAA and AVA. Questions about “indicative” are open-ended. Any reasonable answers with analysis will be credited.
+
+(A) What words are most indicative of being Sauvignon-Blanc? Which words are most indicative of not being Sauvignon-Blanc? What about Pinot-Noir (label==2)?
+
+OAA:
+
+AVA:
+
+(B) Train depth 3 decision trees on the full WineData task (with 20 labels). What accuracy do you get? How long does this take (in seconds)? One of my least favorite wines is Viognier -- what words are indicative of this?
+
+OAA:
+
+AVA:
+
+(C) Compare the accuracy using zero-one predictions versus using confidence. How much difference does it make?
+
+OAA:
+
+AVA:
