@@ -22,8 +22,18 @@ from datasets import *
 #mean(P == WineDataSmall.Yte)
 #mean(WineDataSmall.Yte == 1)
 
+# WineDataSmall.labels[0]
 # The 1s mean "likely to be Sauvignon-Blanc" and the 0s mean "likely not to be".
 #util.showTree(h.f[0], WineDataSmall.words)
+
+# WineDataSmall.labels[0]
+# The 1s mean "likely to be Sauvignon-Blanc" and the 0s mean "likely not to be".
+# util.showTree(h.f[0], WineDataSmall.words)
+
+# WineDataSmall.labels[2]
+# The 1s mean "likely to be Pinot-Noir" and the 0s mean "likely not to be".
+# util.showTree(h.f[2], WineDataSmall.words)
+
 """
 h = multiclass.OAA(20, lambda: DecisionTreeClassifier(max_depth=3))
 h.train(WineData.X, WineData.Y)

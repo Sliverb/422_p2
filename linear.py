@@ -64,9 +64,10 @@ class LogisticLoss(LossFunction):
         in Yhat; compute the loss associated with these predictions.
         """
 
-        ### TODO: YOUR CODE HERE
         sum = 0
+		# sum the logistic loss of each example
         for i in xrange(len(Y)):
+		
             sum += (1/log(2)) * log(1 + exp(- Y[i] * Yhat[i]))
 
         return sum
@@ -78,10 +79,13 @@ class LogisticLoss(LossFunction):
         vector Y; the predicted values are in Yhat; compute the
         gradient of the loss associated with these predictions.
         """
-
-        ### TODO: YOUR CODE HERE
+		# create the vector which will contain the components of the gradient
         sum = zeros(len(X[0]))
+		
+		# for each example, add the components of the gradient found for each dimension
+		#	to the sum
         for i in xrange(len(X)):
+		
             temp = Y[i] * (1/log(2)) * (exp(- Y[i] * Yhat[i])/(1 + exp(- Y[i] * Yhat[i])))
             t = dot(temp, -X[i])
 
@@ -101,8 +105,8 @@ class HingeLoss(LossFunction):
         in Yhat; compute the loss associated with these predictions.
         """
 
-        ### TODO: YOUR CODE HERE
         sum = 0
+		# compute the logistic loss for each example and add it to the sum
         for i in xrange(len(Y)):
             diff = 1 - Y[i] * Yhat[i]
             sum += max(0, diff)
@@ -116,13 +120,21 @@ class HingeLoss(LossFunction):
         gradient of the loss associated with these predictions.
         """
 
-        ### TODO: YOUR CODE HERE
+		# create the vector which will contain the components of the gradient
         sum = zeros(len(X[0]))
+		
+		# for each example calculate the compents of the gradient and add them to the sum
         for i in xrange(len(X)):
+			
+			# margin = yn * (w dot xn)
             marg = Y[i] * Yhat[i]
             t = None
+			
+			# if margin > 1 then gradient = 0
             if marg > 1:
                 t = zeros(len(X[0]))
+				
+			# if margin <= 1, then gradient is yn dot xn
             else:
                 t = dot(Y[i], X[i])
 
@@ -201,10 +213,12 @@ class LinearClassifier(BinaryClassifier):
         def func(w):
             # should compute obj = loss(w) + (lambd/2) * norm(w)^2
             Yhat = []
-
+	
+			# the prediction for each example is simply w dot xn
             for i in xrange(len(X)):
                 Yhat.append(dot(w, X[i]))
             
+			# obtain the loss based on which loss function to use + regularizer
             obj  = lossFn.loss(Y, Yhat) + (lambd/2) * norm(w)**2
 
             # return the objective
@@ -215,9 +229,11 @@ class LinearClassifier(BinaryClassifier):
             # should compute gr = grad(w) + lambd * w
             Yhat = []
 
+			# the prediction for each example is simply w dot xn
             for i in xrange(len(X)):
                  Yhat.append(dot(w, X[i]))
-
+			
+			# obtain the gradient based on which loss function to use + grad(regularizer)
             gr   = lossFn.lossGradient(X, Y, Yhat) + lambd * w
 
             return gr

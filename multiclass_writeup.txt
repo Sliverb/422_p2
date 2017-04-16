@@ -2,6 +2,21 @@ WU1 (10%): Answer questions A, B and C for both OAA and AVA. Questions about “
 
 (A) What words are most indicative of being Sauvignon-Blanc? Which words are most indicative of not being Sauvignon-Blanc? What about Pinot-Noir (label==2)?
 
+code run to generate trees:
+
+oaa = multiclass.OAA(20, lambda: DecisionTreeClassifier(max_depth=3))
+ava = multiclass.AVA(20, lambda: DecisionTreeClassifier(max_depth=3))
+
+WineDataSmall.labels[0]
+# The 1s mean "likely to be Sauvignon-Blanc" and the 0s mean "likely not to be".
+util.showTree(oaa.f[0], WineDataSmall.words)
+util.showTree(ava.f[0], WineDataSmall.words)
+
+WineDataSmall.labels[2]
+# The 1s mean "likely to be Pinot-Noir" and the 0s mean "likely not to be".
+util.showTree(oaa.f[2], WineDataSmall.words)
+util.showTree(ava.f[2], WineDataSmall.words)
+
 OAA:
 
 AVA:
