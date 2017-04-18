@@ -67,7 +67,7 @@ class LogisticLoss(LossFunction):
         ### TODO: YOUR CODE HERE
         sum = 0
         for i in xrange(len(Y)):
-            sum += (1/log(2)) * log(1 + exp(- Y[i] * Yhat[i]))
+            sum += log(1 + exp(- Y[i] * Yhat[i]))
 
         return sum
 
@@ -82,10 +82,9 @@ class LogisticLoss(LossFunction):
         ### TODO: YOUR CODE HERE
         sum = zeros(len(X[0]))
         for i in xrange(len(X)):
-            temp = Y[i] * (1/log(2)) * (exp(- Y[i] * Yhat[i])/(1 + exp(- Y[i] * Yhat[i])))
-            t = dot(temp, -X[i])
-
-            sum += t
+            temp = -Y[i] * X[i] * (exp(-Y[i] * Yhat[i])/(1 + exp(-Y[i] * Yhat[i])))
+     
+            sum += temp
 
         return sum
 
