@@ -7,6 +7,6 @@ from datasets import *
 
 warnings.filterwarnings("ignore")
 h = multiclass.OAA(5, lambda: DecisionTreeClassifier(max_depth=3))
-h.train(WineData.X, WineData.Y)
+h.train(WineData.X, WineData.Y);
 P = h.predictAll(WineData.Xte)
 print(mean(WineData.Yte==P))
